@@ -9,6 +9,10 @@ const breakpoints = {
 
 const theme = extendTheme({
     breakpoints,
+    fonts: {
+        heading: "'Inter', sans-serif",
+        body: "'Inter', sans-serif",
+    },
 });
 
 export default theme;

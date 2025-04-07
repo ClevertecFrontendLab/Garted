@@ -5,44 +5,225 @@ import {
     AccordionItem,
     AccordionPanel,
     Box,
+    Button,
+    Text,
 } from '@chakra-ui/react';
+import { useState } from 'react';
 
-const Menu = () => (
-    <Box
-        position='sticky'
-        top='80px'
-        h='calc(100vh - 80px)'
-        paddingTop='24px'
-        marginRight='24px'
-        display={{ base: 'none', md: 'block' }}
-    >
-        <Accordion allowMultiple padding='10px 16px 0 10px' width='256px'>
-            <AccordionItem>
-                <h2>
-                    <AccordionButton>
-                        <Box as='span' flex='1' textAlign='left'>
-                            Section 1 title
-                        </Box>
-                        <AccordionIcon />
-                    </AccordionButton>
-                </h2>
-                <AccordionPanel pb={4}>Lin</AccordionPanel>
-            </AccordionItem>
+const Menu = () => {
+    const mainCategories: string[] = [
+        'Салаты',
+        'Закуски',
+        'Первые блюда',
+        'Вторые блюда',
+        'Десерты и выпечка',
+        'Блюда на гриле',
+        'Веганская кухня',
+        'Детские блюда',
+        'Лечебное питание',
+        'Национальные блюда',
+        'Соусы',
+        'Напитки',
+        'Заготовки',
+    ];
 
-            <AccordionItem>
-                <h2>
-                    <AccordionButton>
-                        <Box as='span' flex='1' textAlign='left'>
-                            Section 2 title
-                        </Box>
-                        <AccordionIcon />
-                    </AccordionButton>
-                </h2>
-                <AccordionPanel pb={4}>pp</AccordionPanel>
-            </AccordionItem>
-        </Accordion>
-        <div>footer</div>
-    </Box>
-);
+    const vegan: string[] = [
+        'Закуски',
+        'Первые блюда',
+        'Вторые блюда',
+        'Гарниры',
+        'Десерты',
+        'Выпечка',
+        'Сыроедческие блюда',
+        'Напитки',
+    ];
+
+    const [activeTab, setActiveTab] = useState<string>('');
+
+    return (
+        <Box
+            position='sticky'
+            top='80px'
+            h='calc(100vh - 80px)'
+            width='256px'
+            overflowY='auto'
+            paddingTop='24px'
+            marginRight='24px'
+            flexDirection='column'
+            borderRight=' 1px solid rgba(0, 0, 0, 0.08)'
+            display={{ base: 'none', md: 'block' }}
+        >
+            <Accordion allowToggle padding='10px 16px 0 10px' maxWidth='256px'>
+                {mainCategories.map((item, index) => (
+                    <AccordionItem border='none' key={index}>
+                        <h2>
+                            <AccordionButton
+                                {...(item === 'Веганская кухня'
+                                    ? { 'data-test-id': 'vegan-cuisine' }
+                                    : {})}
+                                padding='12px 8px'
+                                _expanded={{ bg: '#eaffc7', fontWeight: 700 }}
+                            >
+                                <div>
+                                    <svg
+                                        width='24'
+                                        height='24'
+                                        viewBox='0 0 24 24'
+                                        fill='none'
+                                        xmlns='http://www.w3.org/2000/svg'
+                                    >
+                                        <path
+                                            d='M12.5008 5.5623C12.5008 6.00302 12.5008 6.44374 12.5008 6.89781C12.7694 6.88232 12.7694 6.88232 13.0434 6.86651C14.6999 6.87529 16.1845 7.41893 17.509 8.40026C17.6217 8.51841 17.7345 8.63655 17.8507 8.75827C18.3096 9.19425 18.7295 9.18759 19.3453 9.23496C19.5331 9.86098 19.5331 9.86098 19.3453 10.2366C14.4974 10.2366 9.64949 10.2366 4.65468 10.2366C4.48775 9.56884 4.48775 9.56884 4.65468 9.23496C4.8234 9.22463 4.99211 9.2143 5.16593 9.20366C5.76302 9.13799 6.03661 8.92337 6.47014 8.51503C7.68223 7.37535 9.27366 6.88276 10.9253 6.87695C11.1147 6.88383 11.3041 6.89072 11.4992 6.89781C11.4992 6.4571 11.4992 6.01638 11.4992 5.5623C11.915 5.35439 12.0686 5.43263 12.5008 5.5623ZM7.65958 9.23496C10.5243 9.23496 13.3889 9.23496 16.3404 9.23496C15.162 8.05655 13.5857 7.99467 12 7.98292C10.4143 7.99467 8.83799 8.05655 7.65958 9.23496Z'
+                                            fill='black'
+                                        />
+                                        <path
+                                            d='M5.99019 10.9043C6.32073 10.9043 6.65127 10.9043 6.99182 10.9043C6.99426 11.0466 6.99669 11.1889 6.9992 11.3355C7.00942 11.866 7.02181 12.3964 7.03564 12.9269C7.04117 13.156 7.04585 13.3851 7.04966 13.6142C7.05529 13.9445 7.06428 14.2748 7.07334 14.605C7.07771 14.8035 7.08208 15.0019 7.08658 15.2064C7.16507 15.7927 7.29872 16.1148 7.65958 16.5803C8.12898 16.7367 8.42269 16.7699 8.90893 16.7741C9.13545 16.7765 9.13545 16.7765 9.36654 16.779C9.61069 16.78 9.61069 16.78 9.85978 16.7811C10.0275 16.7821 10.1953 16.783 10.3681 16.784C10.7232 16.7856 11.0782 16.7867 11.4332 16.7873C11.9758 16.7889 12.5184 16.7941 13.061 16.7994C13.4059 16.8005 13.7509 16.8013 14.0959 16.802C14.2579 16.804 14.42 16.8061 14.587 16.8082C15.7164 16.809 15.7164 16.809 16.6743 16.2464C16.8616 15.6846 16.8759 15.2296 16.894 14.6376C16.901 14.4208 16.908 14.204 16.9152 13.9806C16.9219 13.7517 16.9285 13.5227 16.9351 13.2937C16.9423 13.0627 16.9496 12.8317 16.957 12.6008C16.9747 12.0353 16.9917 11.4698 17.0082 10.9043C17.3387 10.9043 17.6692 10.9043 18.0098 10.9043C18.0098 11.1247 18.0098 11.3451 18.0098 11.5721C18.4505 11.5721 18.8912 11.5721 19.3453 11.5721C19.5331 12.1981 19.5331 12.1981 19.3453 12.5737C18.9046 12.5737 18.4639 12.5737 18.0098 12.5737C18.015 12.7479 18.015 12.7479 18.0204 12.9256C18.0343 13.4552 18.043 13.9847 18.0515 14.5144C18.0571 14.6971 18.0627 14.8798 18.0685 15.068C18.0812 16.1205 18.0841 16.8009 17.342 17.5819C16.8064 17.9186 16.3834 17.9593 15.7562 17.9643C15.5723 17.9664 15.3884 17.9685 15.199 17.9707C15.0011 17.9711 14.8032 17.9715 14.5993 17.9719C14.3951 17.973 14.1909 17.9741 13.9805 17.9752C13.5486 17.9769 13.1167 17.9777 12.6848 17.9776C12.0245 17.9784 11.3645 17.9844 10.7043 17.9908C10.2845 17.9917 9.86478 17.9924 9.44504 17.9927C9.24782 17.9951 9.05059 17.9975 8.84739 18C7.79851 17.9942 7.10173 17.9889 6.32407 17.248C5.94868 16.7253 5.95085 16.2717 5.95758 15.6386C5.95866 15.46 5.95974 15.2814 5.96084 15.0974C5.96364 14.9119 5.96644 14.7264 5.96932 14.5353C5.97083 14.3472 5.97234 14.1591 5.97389 13.9653C5.97782 13.5014 5.98331 13.0376 5.99019 12.5737C5.54947 12.5737 5.10875 12.5737 4.65468 12.5737C4.46687 11.9477 4.46687 11.9477 4.65468 11.5721C5.0954 11.5721 5.53612 11.5721 5.99019 11.5721C5.99019 11.3517 5.99019 11.1314 5.99019 10.9043Z'
+                                            fill='black'
+                                        />
+                                        <path
+                                            d='M12 11.2382V15.2448'
+                                            stroke='black'
+                                            strokeWidth='1.2'
+                                        />
+                                        <path
+                                            d='M9.99673 13.2415H14.0033'
+                                            stroke='black'
+                                            strokeWidth='1.2'
+                                        />
+                                    </svg>
+                                </div>
+                                <Box
+                                    as='span'
+                                    flex='1'
+                                    textAlign='left'
+                                    marginLeft='12px'
+                                    lineHeight='150%'
+                                >
+                                    {item}
+                                </Box>
+                                <AccordionIcon marginRight='auto' />
+                            </AccordionButton>
+                        </h2>
+                        {item === 'Веганская кухня' ? (
+                            <>
+                                {vegan.map((item, index) => (
+                                    <AccordionPanel
+                                        onClick={() => {
+                                            setActiveTab(item);
+                                        }}
+                                        padding='6px 8px 6px 52px'
+                                        key={index}
+                                        sx={{
+                                            position: 'relative',
+                                            _before: {
+                                                content: '""',
+                                                position: 'absolute',
+                                                left: '40px',
+                                                top: '50%',
+                                                transform: 'translateY(-50%)',
+                                                width: activeTab === item ? '4px' : '1px',
+                                                height: '24px',
+                                                bg: '#c4ff61',
+                                            },
+                                        }}
+                                    >
+                                        {item}
+                                    </AccordionPanel>
+                                ))}
+                            </>
+                        ) : (
+                            <>
+                                <AccordionPanel
+                                    onClick={() => {
+                                        setActiveTab('Category');
+                                    }}
+                                    padding='6px 8px 6px 52px'
+                                    sx={{
+                                        position: 'relative',
+                                        _before: {
+                                            content: '""',
+                                            position: 'absolute',
+                                            left: '40px',
+                                            top: '50%',
+                                            transform: 'translateY(-50%)',
+                                            width: activeTab === 'Category' ? '4px' : '1px',
+                                            height: '24px',
+                                            bg: '#c4ff61',
+                                        },
+                                    }}
+                                >
+                                    Category
+                                </AccordionPanel>
+                                <AccordionPanel
+                                    onClick={() => {
+                                        setActiveTab('Test');
+                                    }}
+                                    padding='6px 8px 6px 52px'
+                                    sx={{
+                                        position: 'relative',
+                                        _before: {
+                                            content: '""',
+                                            position: 'absolute',
+                                            left: '40px',
+                                            top: '50%',
+                                            transform: 'translateY(-50%)',
+                                            width: activeTab === 'Test' ? '4px' : '1px',
+                                            height: '24px',
+                                            bg: '#c4ff61',
+                                        },
+                                    }}
+                                >
+                                    Test
+                                </AccordionPanel>
+                            </>
+                        )}
+                    </AccordionItem>
+                ))}
+            </Accordion>
+
+            <Box padding='0 24px 32px 24px'>
+                <Text fontSize='12px' lineHeight='133%' color='rgba(0, 0, 0, 0.24)'>
+                    Версия программы 03.25
+                </Text>
+                <Text
+                    marginTop='16px'
+                    fontSize='12px'
+                    lineHeight='133%'
+                    color='rgba(0, 0, 0, 0.64)'
+                >
+                    Все права защищены,<br></br> ученический файл, <br></br> ©Клевер Технолоджи,
+                    2025
+                </Text>
+                <Button
+                    fontWeight={600}
+                    fontSize='12px'
+                    lineHeight='133%'
+                    bg='none'
+                    gap='6px'
+                    height='100%'
+                    mt='16px'
+                    padding={0}
+                    _hover='none'
+                    _active='none'
+                >
+                    <svg
+                        width='12'
+                        height='12'
+                        viewBox='0 0 12 12'
+                        fill='none'
+                        xmlns='http://www.w3.org/2000/svg'
+                    >
+                        <path d='M8 6.5V5.5H3.5V4L1 6L3.5 8V6.5H8Z' fill='black' />
+                        <path
+                            d='M10 1.5H5.5C4.9485 1.5 4.5 1.9485 4.5 2.5V4.5H5.5V2.5H10V9.5H5.5V7.5H4.5V9.5C4.5 10.0515 4.9485 10.5 5.5 10.5H10C10.5515 10.5 11 10.0515 11 9.5V2.5C11 1.9485 10.5515 1.5 10 1.5Z'
+                            fill='black'
+                        />
+                    </svg>
+                    Выйти
+                </Button>
+            </Box>
+        </Box>
+    );
+};
 
 export default Menu;

@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/react';
 
 const Main = () => (
-    <Box bg='grey' padding={{ base: '0 20px', md: 0 }}>
+    <Box bg='grey' padding={{ base: '0 20px', md: 0 }} flex={1}>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam soluta error asperiores
         consequatur nihil similique, porro minima sit quidem facilis corporis nobis mollitia
         doloribus laborum incidunt optio numquam expedita aperiam. Illo totam dolore est sit, quidem
