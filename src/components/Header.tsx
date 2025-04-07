@@ -7,10 +7,10 @@ const Header = () => (
         data-test-id='header'
         display='flex'
         w='100%'
-        maxW={['100%', '768px', '1440px', '1920px']}
-        minW='320px'
+        position='sticky'
+        top={0}
+        left={0}
         p={{ base: '8px 20px 8px 20px', md: '16px 56px 16px 16px', sm: '8px 16px 8px 16px' }}
-        mx='auto'
         bg='#ffffd3'
     >
         <Link display='flex' alignItems='center' justifyContent='center' gap='7px' href='/'>
